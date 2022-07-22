@@ -27,10 +27,16 @@ func main() {
 	window.SetContent(vBox)
 	label.Wrapping = fyne.TextWrapBreak
 	client = &http.Client{Timeout: time.Second * 10}
-	fact, err := randFact()
-	if err == nil {
-		label.SetText(fact)
-	}
+
+	go func() {
+		for {
+			time.Sleep(time.Second * 5)
+			fact, err := randFact()
+			if err == nil {
+				label.SetText(fact)
+			}
+		}
+	}()
 	window.ShowAndRun()
 }
 
